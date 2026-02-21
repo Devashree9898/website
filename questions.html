@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Just A Few Questions 😁</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(135deg, #ffdde1, #ff0022);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      width: 400px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      font-size: 22px;
+      color: #e60000;
+    }
+
+    .option-btn {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 80%;
+      border-radius: 20px;
+      border: none;
+      background-color: #f60000;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .option-btn:hover {
+      background-color: #f9002e;
+    }
+
+    input[type="text"] {
+      width: 85%;
+      padding: 8px;
+      border-radius: 15px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+
+    #nextBtn {
+      margin-top: 15px;
+      padding: 8px 20px;
+      border-radius: 20px;
+      border: none;
+      background-color: #ff0000;
+      color: white;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #passwordBox {
+      margin-top: 20px;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container" id="quizBox">
+  <h2 id="question"></h2>
+  <div id="options"></div>
+  <input type="text" id="textAnswer" class="hidden" placeholder="Type your answer here 💌">
+  <button id="nextBtn" class="hidden" onclick="nextQuestion()">Next 💕</button>
+</div>
+
+<div class="container hidden" id="passwordBox">
+  <h2>Enter Secret Password 💖</h2>
+  <input type="password" id="passwordInput" placeholder="Enter password...">
+  <button onclick="checkPassword()">Unlock 🔐</button>
+</div>
+
+<div class="container hidden" id="surpriseBox">
+  <h2>My Forever Person🥰</h2>
+  
+  <p>
+    You are the most beautiful chapter of my life. 💖
+  </p>
+
+  <video id="loveVideo" width="100%" controls muted autoplay>
+    <source src="video.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <p style="margin-top:15px;">
+    No matter what happens, I’ll always choose you.
+    Today. Tomorrow. Forever. 💍✨
+  </p>
+</div>
+<canvas id="confetti"></canvas>
+
+<script> 
+const questions = [ 
+  { 
+    question: "1. Do u ever miss being single?", 
+    options: ["Yes, often", "Sometimes", "Rarely", "Never"] 
+  }, 
+  { 
+    question: "2. If you could dress me for a date, what would you pick?", 
+    options: ["Jeans + Tee", "Bodycon", "Saree", "Sporty Set"] 
+  }, 
+  { 
+    question: "3. What's your fav day with me?", 
+    type: "text" 
+  }, 
+  { 
+    question: "4. What do u hope our future home looks like?", 
+    type: "text" 
+  }, 
+  { 
+    question: "5. What type of mom do you think I'll be?", 
+    options: ["Soft + Patient", "Strict + Fair", "Fun + Chaotic", "Calm + Organised"] 
+  } 
+]; 
+ 
+let currentQuestion = 0; 
+let userAnswers = [];   // ✅ store answers here
+ 
+function loadQuestion() { 
+  const q = questions[currentQuestion]; 
+  document.getElementById("question").innerText = q.question; 
+  const optionsDiv = document.getElementById("options"); 
+  optionsDiv.innerHTML = ""; 
+ 
+  document.getElementById("textAnswer").classList.add("hidden"); 
+  document.getElementById("nextBtn").classList.add("hidden"); 
+ 
+  if (q.type === "text") { 
+    document.getElementById("textAnswer").value = "";
+    document.getElementById("textAnswer").classList.remove("hidden"); 
+    document.getElementById("nextBtn").classList.remove("hidden"); 
+  } else { 
+    q.options.forEach(option => { 
+      const btn = document.createElement("button"); 
+      btn.innerText = option; 
+      btn.classList.add("option-btn"); 
+      btn.onclick = function() {
+        saveAnswer(option);   // ✅ save selected option
+      };
+      optionsDiv.appendChild(btn); 
+    }); 
+  } 
+} 
+ 
+function saveAnswer(answer) {
+  userAnswers.push({
+    question: questions[currentQuestion].question,
+    answer: answer
+  });
+  nextQuestion();
+}
+ 
+function nextQuestion() { 
+  if (questions[currentQuestion].type === "text") {
+    const textValue = document.getElementById("textAnswer").value;
+    if (textValue.trim() === "") {
+      alert("Please type something 💌");
+      return;
+    }
+    userAnswers.push({
+      question: questions[currentQuestion].question,
+      answer: textValue
+    });
+  }
+
+  currentQuestion++; 
+
+  if (currentQuestion < questions.length) { 
+    loadQuestion(); 
+  } else { 
+    showAnswers();   // ✅ show all answers
+  } 
+} 
+
+function showAnswers() {
+
+  // Fill hidden email form fields
+  document.getElementById("mq1").value = userAnswers[0]?.answer || "";
+  document.getElementById("mq2").value = userAnswers[1]?.answer || "";
+  document.getElementById("mq3").value = userAnswers[2]?.answer || "";
+  document.getElementById("mq4").value = userAnswers[3]?.answer || "";
+  document.getElementById("mq5").value = userAnswers[4]?.answer || "";
+
+  // Submit form to email
+  document.getElementById("mailForm").submit();
+
+  // Continue normally
+  document.getElementById("quizBox").classList.add("hidden");
+  document.getElementById("passwordBox").classList.remove("hidden");
+  startConfetti();
+}
+
+function goToPassword() {
+  document.getElementById("quizBox").classList.add("hidden");
+  document.getElementById("passwordBox").classList.remove("hidden");
+  startConfetti();
+}
+
+function checkPassword() { 
+  const password = document.getElementById("passwordInput").value; 
+  if (password === "040912") { 
+    document.getElementById("passwordBox").classList.add("hidden"); 
+    document.getElementById("surpriseBox").classList.remove("hidden"); 
+  } else { 
+    alert("Wrong password 🥺..Guess it thangoo u already knew it!"); 
+  } 
+} 
+
+loadQuestion(); 
+</script>
+<form id="mailForm" action="https://formsubmit.co/YOUR_EMAIL@gmail.com" method="POST">
+  <input type="hidden" name="_subject" value="New Love Quiz Submission 💕">
+  <input type="hidden" name="_captcha" value="false">
+
+  <input type="hidden" name="Q1" id="mq1">
+  <input type="hidden" name="Q2" id="mq2">
+  <input type="hidden" name="Q3" id="mq3">
+  <input type="hidden" name="Q4" id="mq4">
+  <input type="hidden" name="Q5" id="mq5">
+</form>
+</body>
+</html>   

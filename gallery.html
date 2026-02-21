@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Our Memories 📸</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Comic Sans MS', cursive;
+    background: linear-gradient(to right, #fb030b, #fad0c4);
+    text-align: center;
+    color: white;
+   
+
+}
+
+h1 {
+    margin-top: 50px;
+    font-size: 40px;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.gallery img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.gallery img:hover {
+    transform: scale(1.1);
+}
+
+/* Popup */
+#popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#popup img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 20px;
+}
+
+button {
+    margin-top: 40px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 30px;
+    background-color: white;
+    color: #e70707;
+    font-size: 18px;
+    cursor: pointer;
+}
+</style>
+</head>
+<audio id="bgMusic" autoplay loop>
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<body>
+<body onclick="startMusic()">
+
+
+<h1>Our Beautiful Memories 💖</h1>
+
+<div class="gallery">
+    <img src="photo1 (2).jpg" onclick="openImage(this.src)">
+    <img src="photo2 (2).jpg" onclick="openImage(this.src)">
+    <img src="photo3 (2).jpg" onclick="openImage(this.src)">
+    <img src="photo4 (2).jpg" onclick="openImage(this.src)">
+    <img src="photo5 (2).jpg" onclick="openImage(this.src)">
+</div>
+
+<!-- Popup -->
+<div id="popup" onclick="closeImage()">
+    <img id="popup-img">
+</div>
+
+
+
+<br>
+<a href="questions.html">
+    <button>Answer My Questions 💌</button>
+</a>
+<a href="index.html">
+    <button>Go Back 💕</button>
+</a>
+
+<script>
+
+function openImage(src) {
+    document.getElementById("popup").style.display = "flex";
+    document.getElementById("popup-img").src = src;
+}
+
+function closeImage() {
+    document.getElementById("popup").style.display = "none";
+}
+function startMusic() {
+    document.getElementById("bgMusic").play();
+}
+</script>
+
+
+</body>
+</html>
